@@ -1,15 +1,42 @@
 /**
  * Apollo Client Konfiguration
  * 
- * TODO (Kapitel 6):
- * - ApolloClient instanziieren mit InMemoryCache
- * - HttpLink konfigurieren (zeigt auf /api/graphql)
- * - Cache-Policies definieren (optional)
+ * Der Client ermöglicht React-Komponenten, GraphQL-Queries zu senden.
  * 
- * Hinweise:
- * - Nutze @apollo/client für Client-Setup
- * - Endpoint: http://localhost:3000/api/graphql
- * - Überlege: SSR-fähiger Client vs. Browser-Client?
+ * Was passiert hier:
+ * 1. HttpLink = Verbindung zum GraphQL Server
+ * 2. InMemoryCache = Caching der Daten (Performance!)
+ * 3. ApolloClient = Kombiniert Link + Cache
  */
 
-// DEINE IMPLEMENTIERUNG HIER
+import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
+
+// Singleton Pattern: Client nur einmal erstellen
+let client: ApolloClient | null = null;
+
+export function getApolloClient() {
+  // Wenn Client schon existiert, wiederverw
+  if (client) {
+    return client;
+  }
+
+  // HttpLink = Verbindung zum Server
+  const httpLink = new HttpLink({
+    uri: 'http://localhost:3000/api/graphql', // Dein GraphQL Endpoint
+    credentials: 'same-origin', // Cookies mitsenden
+  });
+
+  // Client erstellen
+  client = new ApolloClient({
+    link: httpLink,
+    cache: new InMemoryCache(),
+    // Für SSR: Cache nicht im Browser speichern
+    ssrMode: typeof window === 'undefined',
+  });
+
+  return client;
+}
+
+// Default Export für einfache Nutzung
+export default getApolloClient();
+

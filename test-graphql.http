@@ -1,0 +1,31 @@
+### GraphQL Server Test
+
+### 1. Alle Posts abrufen
+POST http://localhost:3000/api/graphql
+Content-Type: application/json
+
+{
+  "query": "{ posts { id title slug excerpt published } }"
+}
+
+###
+
+### 2. Einzelner Post nach Slug
+POST http://localhost:3000/api/graphql
+Content-Type: application/json
+
+{
+  "query": "{ post(slug: \"getting-started-nextjs\") { id title content comments { id author content } } }"
+}
+
+###
+
+### 3. Kommentare zu einem Post
+POST http://localhost:3000/api/graphql
+Content-Type: application/json
+
+{
+  "query": "{ comments(postId: 1) { id author content createdAt } }"
+}
+
+###
