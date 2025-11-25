@@ -6,12 +6,12 @@
  */
 
 import { ApolloServer } from '@apollo/server';
-import { typeDefs } from '@/lib/graphql/schema';
+import { combinedTypeDefs } from '@/lib/graphql/schema';
 import { resolvers } from '@/lib/graphql/resolvers';
 
 // Server erstellen
 const server = new ApolloServer({
-  typeDefs,
+  typeDefs: combinedTypeDefs,
   resolvers,
   introspection: true, // GraphQL Playground aktivieren
 });

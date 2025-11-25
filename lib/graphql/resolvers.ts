@@ -1,26 +1,17 @@
+
+
 /**
  * GraphQL Resolvers
  * 
- * TODO (Kapitel 6):
- * - Query Resolver implementieren (posts, post, comments)
- * - Mutation Resolver (optional: createPost, createComment)
- * - Prisma Client für DB-Zugriff nutzen
- * 
- * Hinweise:
- * - Import PrismaClient: import { PrismaClient } from '@prisma/client'
- * - Resolver-Signatur: (parent, args, context, info) => {}
- * - Async/Await für DB-Queries
- * - Fehlerbehandlung beachten!
- */
-
-/**
- * Resolver implementieren die tatsächliche Logik:
- * - Query.posts → Holt alle Posts aus DB
- * - Query.post → Holt einen Post nach Slug
- * - Query.comments → Holt Kommentare zu einem Post
+ * Implementiert die Logik für:
+ * - Query.posts: Alle veröffentlichten Posts
+ * - Query.post: Einzelner Post nach Slug
+ * - Query.comments: Kommentare zu einem Post
+ * - Mutation: Auth-Mutations (login, register)
  */
 
 import prisma from '@/lib/prisma'; // Singleton nutzen!
+import { authResolvers } from './authResolvers';
 
 export const resolvers = {
   Query: {
@@ -49,5 +40,10 @@ export const resolvers = {
       });
     },
   },
+
+  Mutation: {
+    // Auth Mutations (login, register)
+    ...authResolvers.Mutation,
+  }
 };
 

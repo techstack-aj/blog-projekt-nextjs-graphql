@@ -8,6 +8,7 @@
  */
 
 import { gql } from 'graphql-tag';
+import { authTypeDefs } from './authSchema';
 
 // Type Definitions = Die Struktur deiner API
 export const typeDefs = gql`
@@ -41,4 +42,7 @@ export const typeDefs = gql`
     comments(postId: Int!): [Comment!]! # Alle Comments eines Posts
   }
 `;
+
+// Kombiniere Haupt-Schema mit Auth-Schema
+export const combinedTypeDefs = [typeDefs, authTypeDefs];
 
