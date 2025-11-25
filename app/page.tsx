@@ -18,7 +18,7 @@
  * - Falsch: <Link href="/posts/slug"><a>Text</a></Link>
  */
 import prisma from '@/lib/prisma';
-import Link from 'next/link';
+import PostsClient from '@/components/PostsClient';
 
 export default async function Home() {
   // 1. Posts aus Datenbank laden (SSR - wird bei jedem Request ausgeführt)
@@ -33,27 +33,8 @@ export default async function Home() {
         <h1 className="text-4xl font-bold mb-8 text-black dark:text-white">
           Blog Posts
         </h1>
-        <div className="space-y-6">
-          {posts.map((post) => (
-            <article 
-              key={post.id} 
-              className="border-b border-gray-200 dark:border-gray-800 pb-6"
-            >
-              <Link 
-                href={`/posts/${post.slug}`}
-                className="text-2xl font-semibold text-blue-600 dark:text-blue-400 hover:underline"
-              >
-                {post.title}
-              </Link>
-              <p className="text-gray-500 dark:text-gray-400 text-sm mt-2">
-                {new Date(post.createdAt).toLocaleDateString('de-DE')}
-              </p>
-              <p className="text-gray-700 dark:text-gray-300 mt-2">
-                {post.excerpt}
-              </p>
-            </article>
-          ))}
-        </div>
+        
+        <PostsClient posts={posts} />
       </main>
     </div>
   );
