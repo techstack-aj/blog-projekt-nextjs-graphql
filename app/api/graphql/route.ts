@@ -36,8 +36,12 @@ async function handler(request: Request) {
     variables: body.variables,
   });
 
-  // Response zurückgeben
-  return Response.json(response.body);
+  // Response zurückgeben (body.singleResult enthält die Daten)
+  if (response.body.kind === 'single') {
+    return Response.json(response.body.singleResult);
+  }
+
+  return Response.json({ errors: [{ message: 'Invalid response format' }] });
 }
 
 export async function GET(request: Request) {
